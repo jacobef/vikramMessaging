@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <br>
+    <a href="/">Home</a>
+    <h1>Messages</h1><br>
+    Groups:
+    <br><br><br>
+    {% for chat in chats %}
+        <a href="/messages/{{ chat.pk }}/">{{ chat.name }}</a><br><br><br>
+    {% endfor %}
+
+{% endblock %}

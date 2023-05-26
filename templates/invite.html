@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Invite people to Group "{{ chat.name }}"</h1>
+    {% if uninvited_users %}
+        <form method="POST" action="{% url "messaging:invite" chat_pk=chat.pk %}">
+            {% csrf_token %}
+                <select multiple name="users">
+                    {% for user in uninvited_users %}
+                        <option value="{{ user.pk }}">{{ user }}</option>
+                    {% endfor %}
+                </select><br>
+                <input type="submit" value="Invite">
+        </form>
+    {% else %}
+        Every single user is already in your group! Congratulations...?<br>
+    {% endif %}
+{% endblock %}
