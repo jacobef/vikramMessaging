@@ -6,7 +6,11 @@
     Groups:
     <br><br><br>
     {% for chat in chats %}
-        <a href="/messages/{{ chat.pk }}/">{{ chat.name }}</a><br><br><br>
+        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><br>
     {% endfor %}
-
+    <br>
+    Make a new chat:
+    <a href="{% url "messaging:new_chat" %}">New Chat</a>
+    <br>
+    Remove yourself f
 {% endblock %}

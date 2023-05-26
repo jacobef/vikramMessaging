@@ -7,4 +7,5 @@ urlpatterns = [
     path("", views.view_chats, name="view_chats"),
     path("<int:chat_pk>/", views.view_chat, name="view_chat"),
     path("<int:chat_pk>/invite/", views.invite, name="invite"),
+    path("new/", views.NewChat.as_view(), name="new_chat")
 ]
