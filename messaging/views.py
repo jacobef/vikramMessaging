@@ -81,7 +81,8 @@ def view_dm(request, user_pk):
         return render(request, "view_dm.html",
                       {"messages":
                            DirectMessage.objects.filter(by=request.user, to=other_user)
-                      .union(DirectMessage.objects.filter(by=other_user, to=request.user))})
+                      .union(DirectMessage.objects.filter(by=other_user, to=request.user)),
+                       "other_user": other_user})
     elif request.method == "POST":
         message = DirectMessage(by=request.user, to=other_user, time_sent=timezone.now(),
                                 content=request.POST["message"])

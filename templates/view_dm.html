@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}{{ other_user.username }}{% endblock %}
 {% block content %}
-    <h1>DM with {{ user.username }}</h1>
+    <h1>DM with {{ other_user.username }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
         <div class="message">
           From: {{ message.by }}<br>
