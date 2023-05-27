@@ -32,9 +32,7 @@ def view_chat(request, chat_pk):
                                    to=group,
                                    time_sent=timezone.now())
         new_message.save()
-        return render(request, "group_chat.html",
-                      {"chat": group,
-                       "messages": GroupMessage.objects.filter(to__pk=chat_pk)})
+        return redirect("messaging:view_chat", chat_pk=chat_pk)
 
 
 @login_required
@@ -79,11 +77,13 @@ def view_dms(request):
 
 def view_dm(request, user_pk):
     other_user = User.objects.get(pk=user_pk)
-    if request.method == "POST":
+    if request.method == "GET":
+        return render(request, "view_dm.html",
+                      {"messages":
+                           DirectMessage.objects.filter(by=request.user, to=other_user)
+                      .union(DirectMessage.objects.filter(by=other_user, to=request.user))})
+    elif request.method == "POST":
         message = DirectMessage(by=request.user, to=other_user, time_sent=timezone.now(),
                                 content=request.POST["message"])
         message.save()
-    return render(request, "view_dm.html",
-                  {"messages":
-                       DirectMessage.objects.filter(by=request.user, to=other_user)
-                  .union(DirectMessage.objects.filter(by=other_user, to=request.user))})
+        return redirect("messaging:view_dm", user_pk=user_pk)
