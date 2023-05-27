@@ -17,5 +17,6 @@
             <input type="submit" value="Send">
         </form>
         <a href="{% url "messaging:invite" chat_pk=chat.pk %}">Invite people</a>
+        <a class="leave" href="{% url "messaging:leave_chat" chat_pk=chat.pk %}">Leave {{ chat.name }}</a><br><br>
     </div>
 {% endblock %}

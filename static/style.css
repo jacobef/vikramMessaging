@@ -58,6 +58,7 @@ div.message {
   font-size: 15px;
   margin: 5px;
   color: black;
+  border: 1px solid black;
 }
 nav.line {
   border: 1px solid black;
@@ -120,4 +121,8 @@ div.danger {
   background-color: #ff666666;
   padding: 10px;
   border-left: 8px solid red;
+}
+a.leave {
+  float: right;
+  background: red;
 }

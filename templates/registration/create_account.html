@@ -3,6 +3,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Create Account"><a href="/">Home</a>
+        <input type="submit" value="Create Account">
+        <a href="{% url "login" %}">Log In</a>
     </form>
 {% endblock %}

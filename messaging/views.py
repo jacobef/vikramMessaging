@@ -65,3 +65,10 @@ class NewChat(CreateView):
         form.instance.members.add(self.request.user.pk)
         form.instance.save()
         return super().form_valid(form)
+
+
+def leave_chat(request, chat_pk):
+    chat = MessagingGroup.objects.get(pk=chat_pk)
+    chat.members.remove(request.user.pk)
+    chat.save()
+    return redirect("messaging:view_chats")

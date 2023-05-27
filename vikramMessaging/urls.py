@@ -23,7 +23,7 @@ from vikramMessaging import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path("", lambda request: render(request, "home.html")),
+    path("", views.home, name="home"),
     path('messages/', include("messaging.urls")),
     path('register/', views.create_account, name="register"),
 ]
