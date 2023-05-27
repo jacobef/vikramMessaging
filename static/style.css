@@ -114,9 +114,10 @@ option {
   font-size: 15px;
 }
 div.alert {
-  background-color: lightyellow;
+  background-color: #ffff00;
   padding: 10px;
-  border: 1px solid yellow;
+  border: 2px solid #000000;
+  color: black;
 }
 div.danger {
   background-color: #ff666666;

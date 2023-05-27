@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>DMs</h1><br>
-    Messages
+    Messages:
     <br><br><br>
     {% for user in users %}
         <a href="{% url "messaging:view_dm" user_pk=user.pk %}">{{ user.username }}</a><br><br><br>
