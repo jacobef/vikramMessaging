@@ -70,5 +70,6 @@ class NewChat(CreateView):
 def leave_chat(request, chat_pk):
     chat = MessagingGroup.objects.get(pk=chat_pk)
     chat.members.remove(request.user.pk)
-    chat.save()
+    if not chat.members:
+        chat.delete()
     return redirect("messaging:view_chats")

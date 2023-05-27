@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-    <br>
-    <a href="{% url "messaging:view_chats" %}">Messages</a>
     <h1>Invite people to Group "{{ chat.name }}"</h1><br>
     {% if uninvited_users %}
         <form method="POST" action="{% url "messaging:invite" chat_pk=chat.pk %}">

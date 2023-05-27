@@ -9,6 +9,14 @@
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
+<br>
+<a href="{% url "home" %}">Home</a>
+<a href="{% url "messaging:view_chats" %}">Messages</a>&nbsp;
+{% if user.is_authenticated %}
+    <a href="{% url "logout" %}">Logout</a>
+{% else %}
+    <a href="{% url "login" %}">Login</a>
+{% endif %}
 {% block content %}{% endblock %}
 </body>
 </html>

@@ -110,7 +110,8 @@ option {
   background: linear-gradient(to left top, #00c7fc, #2c37bf);
   border: 2px solid black;
   color: white;
-  padding: 5px;
+  padding: 10px;
+  font-size: 15px;
 }
 div.alert {
   background-color: lightyellow;
