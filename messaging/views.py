@@ -7,12 +7,12 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
-from messaging.models import MessagingGroup, GroupMessage
+from messaging.models import MessagingGroup, GroupMessage, DirectMessage
 
 
 @login_required
 def view_chats(request):
-    return render(request, "messages.html",
+    return render(request, "group_chats.html",
                   {"chats": MessagingGroup.objects.filter(members=request.user.pk)})
 
 
@@ -70,6 +70,20 @@ class NewChat(CreateView):
 def leave_chat(request, chat_pk):
     chat = MessagingGroup.objects.get(pk=chat_pk)
     chat.members.remove(request.user.pk)
-    if not chat.members:
-        chat.delete()
     return redirect("messaging:view_chats")
+
+
+def view_dms(request):
+    return render(request, "view_dms.html", {"users": User.objects.all()})
+
+
+def view_dm(request, user_pk):
+    other_user = User.objects.get(pk=user_pk)
+    if request.method == "POST":
+        message = DirectMessage(by=request.user, to=other_user, time_sent=timezone.now(),
+                                content=request.POST["message"])
+        message.save()
+    return render(request, "view_dm.html",
+                  {"messages":
+                       DirectMessage.objects.filter(by=request.user, to=other_user)
+                  .union(DirectMessage.objects.filter(by=other_user, to=request.user))})
