@@ -88,3 +88,10 @@ def view_dm(request, user_pk):
                                 content=request.POST["message"])
         message.save()
         return redirect("messaging:view_dm", user_pk=user_pk)
+
+
+def delete_dm(request, dm_pk):
+    dm = DirectMessage.objects.get(pk=dm_pk)
+    if dm.by == request.user:
+        dm.delete()
+    return redirect("messaging:view_dm", user_pk=dm.to.pk)

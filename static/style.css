@@ -127,3 +127,8 @@ a.leave {
   float: right;
   background: red;
 }
+a.del {
+  float: right;
+  background: red;
+  padding: 5px;
+}

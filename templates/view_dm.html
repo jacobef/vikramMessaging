@@ -4,6 +4,9 @@
     <h1>DM with {{ other_user.username }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
         <div class="message">
+            {% if message.by == user %}
+            <a class="del" href="{% url "messaging:delete_dm" dm_pk=message.pk %}">Delete</a>
+        {% endif %}
           From: {{ message.by }}<br>
           At: {{ message.time_sent }}
           <nav class="line"></nav>
