@@ -12,6 +12,7 @@ urlpatterns = [
     path("gcs/new/", views.NewChat.as_view(), name="new_chat"),
 
     path("dms/", views.view_dms, name="view_dms"),
-    path("dms/<int:user_pk>/", views.view_dm, name="view_dm"),
+    path("dms/<int:dm_line_pk>/", views.view_dm_line, name="view_dm_line"),
     path("dms/message/<int:dm_pk>/delete", views.delete_dm, name="delete_dm"),
+    path("dms/new/", views.new_dm_line, name="new_dm_line")
 ]

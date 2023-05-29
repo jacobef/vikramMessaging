@@ -6,8 +6,9 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
+from django.db.models import Q
 
-from messaging.models import MessagingGroup, GroupMessage, DirectMessage
+from messaging.models import MessagingGroup, GroupMessage, DirectMessage, DirectMessageLine
 
 
 @login_required
@@ -66,6 +67,7 @@ class NewChat(CreateView):
     def form_valid(self, form):
         form.instance.save()
         form.instance.members.add(self.request.user.pk)
+        form.instance.read_list.add(self.request.user.pk)
         form.instance.save()
         return super().form_valid(form)
 
@@ -79,23 +81,47 @@ def leave_chat(request, chat_pk):
 
 @login_required
 def view_dms(request):
-    return render(request, "view_dms.html", {"users": User.objects.all()})
+    return render(request, "view_dms.html",
+                  {"dm_lines": DirectMessageLine.objects.filter(members=request.user)})
 
 
 @login_required
-def view_dm(request, user_pk):
-    other_user = User.objects.get(pk=user_pk)
+def view_dm_line(request, dm_line_pk):
+    dm_line = DirectMessageLine.objects.get(pk=dm_line_pk)
+    other_user = dm_line.members.exclude(pk=request.user.pk).get()
     if request.method == "GET":
-        return render(request, "view_dm.html",
-                      {"messages":
-                           DirectMessage.objects.filter(by=request.user, to=other_user)
-                      .union(DirectMessage.objects.filter(by=other_user, to=request.user)),
+        dm_line.read_list.add(request.user)
+        dm_line.save()
+        return render(request, "view_dm_line.html",
+                      {"messages": dm_line.messages.all(),
                        "other_user": other_user})
     elif request.method == "POST":
-        message = DirectMessage(by=request.user, to=other_user, time_sent=timezone.now(),
+        dm_line.read_list.clear()
+        dm_line.read_list.add(request.user)
+        dm_line.save()
+        message = DirectMessage(by=request.user, to=dm_line, time_sent=timezone.now(),
                                 content=request.POST["message"])
         message.save()
-        return redirect("messaging:view_dm", user_pk=user_pk)
+        return redirect("messaging:view_dm_line", dm_line_pk=dm_line_pk)
+
+
+@login_required
+def new_dm_line(request):
+    if request.method == "GET":
+        return render(request, "new_dm_line.html", {"users": User.objects.exclude(pk=request.user.pk).all()})
+    elif request.method == "POST":
+        other_user = User.objects.get(pk=int(request.POST["other_user"]))
+        existing_line = DirectMessageLine.objects.filter(members=request.user).filter(members=other_user)
+        if existing_line.exists():
+            return redirect("messaging:view_dm_line", dm_line_pk=existing_line.get().pk)
+        dm_line = DirectMessageLine()
+        dm_line.save()
+        dm_line.members.add(request.user)
+        dm_line.members.add(other_user)
+        dm_line.read_list.add(request.user)
+        dm_line.read_list.add(other_user)
+        dm_line.save()
+        return redirect("messaging:view_dm_line", dm_line_pk=dm_line.pk)
 
 
 @login_required
@@ -103,7 +129,7 @@ def delete_dm(request, dm_pk):
     dm = DirectMessage.objects.get(pk=dm_pk)
     if dm.by == request.user:
         dm.delete()
-    return redirect("messaging:view_dm", user_pk=dm.to.pk)
+    return redirect("messaging:view_dm_line", dm_line_pk=dm.to.pk)
 
 
 @login_required

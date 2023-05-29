@@ -3,12 +3,12 @@
     {% include "force_refresh_snippet.html" %}
     <h1>Messages</h1><br>
     <h3>Groups:</h3>
-    <br><br><br>
-    {% for chat in chats %}
+    <nav class="line"></nav>
+    {% for chat in chats %}<br>
         {% if user not in chat.read_list.all %}
             Unread messages are in the {{ chat.name }} chat!!!<br><br>
         {% endif %}
-        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><nav class="line"></nav><br>
+        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><nav class="line"></nav>
     {% endfor %}
     <br>
     Make a new chat:

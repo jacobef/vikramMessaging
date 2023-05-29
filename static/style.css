@@ -104,7 +104,7 @@ select {
   color: white;
   padding: 5px;
   min-width: 150px;
-  min-height: 200px;
+  min-height: 100px;
 }
 option {
   background: linear-gradient(to left top, #00c7fc, #2c37bf);
@@ -132,4 +132,41 @@ a.del {
   float: right;
   background: red;
   padding: 5px;
+}
+.card {
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 10px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    width: 300px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    display: block;
+}
+.card:hover {
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 10px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4), 0 6px 20px 0 rgba(0,0,0,0.4);
+    width: 200px;
+}
+.card-txt {
+    padding: 5px;
+    overflow: auto;
+    text-align: center;
+}
+.card-img {
+  border-radius: 5px;
+  width: 200px;
+  object-fit: contain;
+}
+.card-header {
+  text-align: left;
+  font-size: 30px;
+}
+.closebtn {
+  float: right;
+  font-size: 25px;
+  cursor: pointer;
+    color: #666666;
 }

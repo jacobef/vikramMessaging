@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>DM someone:</h1><br>
+    {% if users %}
+        <form method="POST" action="{% url "messaging:new_dm_line" %}">
+            {% csrf_token %}
+                <select name="other_user">
+                    {% for user in users %}
+                        <option value="{{ user.pk }}">{{ user }}</option>
+                    {% endfor %}
+                </select><br>
+                <input type="submit" value="DM">
+        </form>
+    {% else %}
+        Every single user is already in your DM! Congratulations...? Our only questions are how and why, exactly?<br>
+    {% endif %}
+{% endblock %}
