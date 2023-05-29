@@ -47,7 +47,7 @@ def invite(request, chat_pk):
 
     if request.method == "GET":
         return render(request, "invite.html",
-                      {"uninvited_users": User.objects.exclude(messaging_group=group),
+                      {"uninvited_users": User.objects.exclude(messaging_groups=group).all(),
                        "chat": group})
     elif request.method == "POST":
         if request.user not in group.members.all():
