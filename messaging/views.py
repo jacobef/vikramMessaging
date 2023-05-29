@@ -21,6 +21,7 @@ def view_chat(request, chat_pk):
     group = MessagingGroup.objects.get(pk=chat_pk)
     if request.method == "GET":
         if request.user in group.members.all():
+            group.read_list.add(request.user)
             return render(request, "group_chat.html",
                           {"chat": MessagingGroup.objects.get(pk=chat_pk),
                            "messages": GroupMessage.objects.filter(to__pk=chat_pk)})
@@ -32,6 +33,7 @@ def view_chat(request, chat_pk):
                                    to=group,
                                    time_sent=timezone.now())
         new_message.save()
+        group.read_list.set({request.user})
         return redirect("messaging:view_chat", chat_pk=chat_pk)
 
 

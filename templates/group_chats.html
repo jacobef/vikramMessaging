@@ -4,7 +4,11 @@
     Groups:
     <br><br><br>
     {% for chat in chats %}
-        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><br>
+        {% if user not in chat.read_list %}
+            Unread messages!
+        {% endif %}
+        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a>
+        <nav class="line"></nav>
     {% endfor %}
     <br>
     Make a new chat:

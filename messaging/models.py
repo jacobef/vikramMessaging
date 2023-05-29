@@ -1,10 +1,11 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 
 class MessagingGroup(models.Model):
     name = models.CharField(max_length=50)
     members = models.ManyToManyField(to=User, related_name="messaging_group")
+    read_list = models.ManyToManyField(to=User, related_name="groups_read")
 
 
 class GroupMessage(models.Model):
