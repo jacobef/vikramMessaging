@@ -6,6 +6,7 @@ app_name = "messaging"
 urlpatterns = [
     path("gcs/", views.view_chats, name="view_chats"),
     path("gcs/<int:chat_pk>/", views.view_chat, name="view_chat"),
+    path("gcs/message/<int:gm_pk>/delete", views.delete_gm, name="delete_gm"),
     path("gcs/<int:chat_pk>/invite/", views.invite, name="invite"),
     path("gcs/<int:chat_pk>/leave/", views.leave_chat, name="leave_chat"),
     path("gcs/new/", views.NewChat.as_view(), name="new_chat"),

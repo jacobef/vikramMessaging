@@ -65,16 +65,19 @@ class NewChat(CreateView):
         return super().form_valid(form)
 
 
+@login_required
 def leave_chat(request, chat_pk):
     chat = MessagingGroup.objects.get(pk=chat_pk)
     chat.members.remove(request.user.pk)
     return redirect("messaging:view_chats")
 
 
+@login_required
 def view_dms(request):
     return render(request, "view_dms.html", {"users": User.objects.all()})
 
 
+@login_required
 def view_dm(request, user_pk):
     other_user = User.objects.get(pk=user_pk)
     if request.method == "GET":
@@ -90,8 +93,17 @@ def view_dm(request, user_pk):
         return redirect("messaging:view_dm", user_pk=user_pk)
 
 
+@login_required
 def delete_dm(request, dm_pk):
     dm = DirectMessage.objects.get(pk=dm_pk)
     if dm.by == request.user:
         dm.delete()
     return redirect("messaging:view_dm", user_pk=dm.to.pk)
+
+
+@login_required
+def delete_gm(request, gm_pk):
+    gm = GroupMessage.objects.get(pk=gm_pk)
+    if gm.by == request.user:
+        gm.delete()
+    return redirect("messaging:view_chat", chat_pk=gm.to.pk)

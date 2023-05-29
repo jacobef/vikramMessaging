@@ -4,10 +4,13 @@
     <h1>Message group: {{ chat.name }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
         <div class="message">
-          From: {{ message.by }}<br>
-          At: {{ message.time_sent }}
-          <nav class="line"></nav>
-          {{ message.content|linebreaks }}
+            {% if message.by == user %}
+                <a class="del" href="{% url "messaging:delete_gm" gm_pk=message.pk %}">Delete</a>
+            {% endif %}
+            From: {{ message.by }}<br>
+            At: {{ message.time_sent }}
+            <nav class="line"></nav>
+            {{ message.content|linebreaks }}
         </div>
     {% endfor %}
     <div class="sticky">
