@@ -7,7 +7,7 @@
         {% if user not in chat.read_list %}
             Unread messages!
         {% endif %}
-        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a>
+        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><br>
         <nav class="line"></nav>
     {% endfor %}
     <br>
