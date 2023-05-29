@@ -5,10 +5,9 @@
     <br><br><br>
     {% for chat in chats %}
         {% if user not in chat.read_list %}
-            Unread messages!
+            Unread messages are in the {{ chat.name }} chat!!!<br>
         {% endif %}
-        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><br>
-        <nav class="line"></nav>
+        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><nav class="line"></nav><br>
     {% endfor %}
     <br>
     Make a new chat:
