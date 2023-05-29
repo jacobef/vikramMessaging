@@ -34,7 +34,8 @@ def view_chat(request, chat_pk):
                                    to=group,
                                    time_sent=timezone.now())
         new_message.save()
-        group.read_list.set({request.user})
+        group.read_list.clear()
+        group.read_list.add(request.user)
         group.save()
         return redirect("messaging:view_chat", chat_pk=chat_pk)
 
