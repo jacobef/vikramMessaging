@@ -6,6 +6,9 @@
     <br><br><br>
     {% for dm_line in dm_lines %}<br>
         <div class="message">
+        <div class="flt-right"><br>
+            <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">Go to chat</a>
+        </div>
         <div class="large-txt">DM with {% for member in dm_line.members.all %}
             {% if member != user %}
                 {{ member }}
@@ -21,9 +24,6 @@
                 {% endif %}
             {% endfor %} dm!!!<br><br></div>
         {% endif %}
-        <div class="flt-right"><br>
-            <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">Go to chat</a>
-        </div>
         <br><br><br>
     </div>
     {% endfor %}<nav class="line"></nav><br><strong>Create a DM with someone:</strong><br><br>
