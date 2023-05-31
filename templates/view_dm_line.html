@@ -1,22 +1,27 @@
 {% extends "base.html" %}
+{% load encryption_tags %}
+
 {% block title %}{{ other_user.username }}{% endblock %}
 {% block content %}
     <h1>DM with {{ other_user.username }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
         <div class="message">
             {% if message.by == user %}
-                <a class="del" href="{% url "messaging:delete_dm" dm_pk=message.pk %}">Delete</a>
+                <a class="del" href="{% url "messaging:delete_dm" dm_pk=message.pk %}">Delete</a><br>
             {% endif %}
-            From: {{ message.by }}<br>
-            At: {{ message.time_sent }}
+            From: {{ message.by }} <div class="flt-right">{{ message.time_sent }}</div>
             <nav class="line"></nav>
-            {{ message.content|linebreaks }}
+            {% if message.by != user %}
+                {{ message.content|decrypt_with:private_key|linebreaks }}
+            {% else %}
+                <i>(encrypted)</i>
+            {% endif %}
         </div>
     {% endfor %}
     <div class="sticky">
         <form method="POST" style="display:inline-block">
             {% csrf_token %}
-            <textarea name="message" maxlength="5000" rows="5" cols="40"></textarea><br>
+            <textarea name="message" maxlength="5000" rows="5" cols="40" placeholder="Send a message..."></textarea><br>
             <input type="submit" value="Send">
         </form>
     </div>

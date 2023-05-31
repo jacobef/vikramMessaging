@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Profile:</h1>
+    <b>Username:</b> {{ user.username }}<br>
+    <b>Name:</b> {{ user.first_name }} {{ user.last_name }}<br>
+    <b>Profile picture:</b>
+    <div class="card">
+    <img class="card-img" src="#" alt="profile_picture">
+    <div class="card-txt">
+         <a href="3">Change</a>
+    </div>
+    </div>
+    {# profile pic once we store it #}
+
+{% endblock %}

@@ -5,5 +5,6 @@ admin.site.register(models.MessagingGroup)
 admin.site.register(models.GroupMessage)
 admin.site.register(models.DirectMessage)
 admin.site.register(models.DirectMessageLine)
+admin.site.register(models.CustomUser)
 
 

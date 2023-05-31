@@ -5,12 +5,18 @@
     <h3>Groups:</h3>
     <nav class="line"></nav>
     {% for chat in chats %}<br>
-        {% if user not in chat.read_list.all %}
+        <div class="message">
+            <div class="large-txt">{{ chat.name }}</div><br>{% if user not in chat.read_list.all %}
             Unread messages are in the {{ chat.name }} chat!!!<br><br>
         {% endif %}
-        <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><nav class="line"></nav>
+          <div class="flt-right"><br>
+            <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">Go to chat</a>
+          </div>
+          <br><br><br>
+        </div>
     {% endfor %}
     <br>
-    Make a new chat:
-    <a href="{% url "messaging:new_chat" %}">New Chat</a>
+    <div class="message"><br>
+    <a href="{% url "messaging:new_chat" %}">New Chat</a><br><br>
+    </div>
 {% endblock %}

@@ -4,22 +4,39 @@
     <h1>DMs</h1><br>
     <h3>Messages:</h3>
     <br><br><br>
-    {% for dm_line in dm_lines %}<br><br>
+    {% for dm_line in dm_lines %}<br>
+        <div class="message">
+        <div class="large-txt">DM with {% for member in dm_line.members.all %}
+            {% if member != user %}
+                {{ member }}
+            {% endif %}
+        {% endfor %}
+        </div>
         {% if user not in dm_line.read_list.all %}
+
         Unread messages are in the
             {% for member in dm_line.members.all %}
                 {% if member != user %}
                     {{ member }}
                 {% endif %}
-            {% endfor %} dm!!!<br><br>
+            {% endfor %} dm!!!<br><br></div>
         {% endif %}
-        <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">
-        {% for member in dm_line.members.all %}
-            {% if member != user %}
-                {{ member }}
-            {% endif %}
-        {% endfor %}
-        </a><br><br><br>
+        <div class="flt-right"><br>
+            <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">Go to chat</a>
+        </div>
+        <br><br><br>
+    </div>
     {% endfor %}<nav class="line"></nav><br><strong>Create a DM with someone:</strong><br><br>
     <a href="{% url "messaging:new_dm_line" %}">Create</a>
 {% endblock %}
+<!--
+<div class="message">
+            <div class="large-txt">{# chat.name #}</div><br>{# if user not in chat.read_list.all #}
+            Unread messages are in the {# chat.name #} chat!!!<br><br>
+        {# endif #}
+          <div class="flt-right"><br>
+            <a href="{# url "messaging:view_chat" chat_pk=chat.pk #}">Go to chat</a>
+          </div>
+          <br><br><br>
+        </div>
+-->

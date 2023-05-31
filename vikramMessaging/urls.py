@@ -26,4 +26,5 @@ urlpatterns = [
     path("", views.home, name="home"),
     path('messages/', include("messaging.urls")),
     path('register/', views.create_account, name="register"),
+    path('profile/', views.profile, name="profile")
 ]

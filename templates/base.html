@@ -17,6 +17,7 @@
 <a href="{% url "messaging:view_dms" %}">Direct messages</a>
 <a href="{% url "messaging:view_chats" %}">Group chats</a>&nbsp;
 {% if user.is_authenticated %}
+    <a href="{% url "profile" %}">Profile</a>
     <a href="{% url "logout" %}">Logout</a>
 {% else %}
     <a href="{% url "login" %}">Login</a>
