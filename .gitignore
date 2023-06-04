@@ -2,7 +2,8 @@ db.sqlite3
 venv/
 **/migrations/**
 !**/migrations/__init__.py
-media/
+media/*
+!media/default_profile_pic.png
 .DS_Store
 .idea/
 **/__pycache__/**

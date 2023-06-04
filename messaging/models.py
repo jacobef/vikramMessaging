@@ -6,6 +6,7 @@ from django.db import models
 class CustomUser(AbstractUser):
     public_key = models.BinaryField(null=True)
     private_key = models.BinaryField(null=True)
+    profile_pic = models.ImageField(default="default_profile_pic.png")
 
     def in_database(self):
         return self.pk is not None

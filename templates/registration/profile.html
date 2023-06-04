@@ -5,11 +5,8 @@
     <b>Name:</b> {{ user.first_name }} {{ user.last_name }}<br>
     <b>Profile picture:</b>
     <div class="card">
-    <img class="card-img" src="#" alt="profile_picture">
-    <div class="card-txt">
-         <a href="3">Change</a>
+    <img class="card-img" src="{{ user.profile_pic.url }}" alt="profile_picture">
     </div>
-    </div>
-    {# profile pic once we store it #}
-
+    <br>
+    <a href="{% url "edit_profile" %}">Edit</a>
 {% endblock %}

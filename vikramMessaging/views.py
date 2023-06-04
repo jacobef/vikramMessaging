@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView
 
 from messaging.forms import CustomUserCreationForm
-from messaging.models import GroupMessage, MessagingGroup
+from messaging.models import GroupMessage, MessagingGroup, CustomUser
 
 
 @login_required
@@ -23,6 +25,16 @@ def create_account(request):
     if request.method == "GET":
         return render(request, "registration/create_account.html", {"form": CustomUserCreationForm()})
     elif request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         form.save()
         return redirect("login")
+
+
+class EditProfile(UpdateView):
+    model = CustomUser
+    template_name = "registration/edit_profile.html"
+    fields = ("first_name", "last_name", "email", "profile_pic")
+    success_url = reverse_lazy("profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user

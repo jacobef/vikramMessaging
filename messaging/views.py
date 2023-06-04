@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.db.models import Q
 
 from messaging.models import MessagingGroup, GroupMessage, DirectMessage, DirectMessageLine, CustomUser
