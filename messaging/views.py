@@ -144,3 +144,10 @@ def delete_gm(request, gm_pk):
     if gm.by == request.user:
         gm.delete()
     return redirect("messaging:view_chat", chat_pk=gm.to.pk)
+
+
+def delete_dm_line(request, dm_line_pk):
+    dm_line = DirectMessageLine.objects.get(pk=dm_line_pk)
+    if request.user in dm_line.members.all():
+        dm_line.delete()
+    return redirect("messaging:view_dms")

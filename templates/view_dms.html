@@ -7,7 +7,8 @@
     {% for dm_line in dm_lines %}<br>
         <div class="message">
         <div class="flt-right"><br>
-            <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">Go to chat</a>
+            <a href="{% url "messaging:view_dm_line" dm_line_pk=dm_line.pk %}">Go to chat</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url "messaging:delete_dm_line" dm_line_pk=dm_line.pk %}" class="del-other">Delete</a>
         </div>
         <div class="large-txt">DM with {% for member in dm_line.members.all %}
             {% if member != user %}
@@ -16,8 +17,7 @@
         {% endfor %}
         </div>
         {% if user not in dm_line.read_list.all %}
-
-        Unread messages are in the
+            Unread messages are in the
             {% for member in dm_line.members.all %}
                 {% if member != user %}
                     {{ member }}

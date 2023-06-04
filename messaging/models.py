@@ -40,7 +40,7 @@ class GroupMessage(models.Model):
 class DirectMessage(models.Model):
     content = models.BinaryField(max_length=2047)
     by = models.ForeignKey(to=CustomUser, null=True, on_delete=models.SET_NULL, related_name="sent_dms")
-    to = models.ForeignKey(to=DirectMessageLine, null=True, on_delete=models.SET_NULL, related_name="messages")
+    to = models.ForeignKey(to=DirectMessageLine, null=True, on_delete=models.CASCADE, related_name="messages")
     time_sent = models.DateTimeField()
 
 

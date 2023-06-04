@@ -183,3 +183,9 @@ a.del {
     border-radius: 50%;
     object-fit: cover
 }
+a.del-other {
+  background: red;
+}
+div.empty-sep {
+    padding: 20px;
+}

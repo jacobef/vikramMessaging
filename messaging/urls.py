@@ -6,13 +6,14 @@ app_name = "messaging"
 urlpatterns = [
     path("gcs/", views.view_chats, name="view_chats"),
     path("gcs/<int:chat_pk>/", views.view_chat, name="view_chat"),
-    path("gcs/message/<int:gm_pk>/delete", views.delete_gm, name="delete_gm"),
+    path("gcs/message/<int:gm_pk>/delete/", views.delete_gm, name="delete_gm"),
     path("gcs/<int:chat_pk>/invite/", views.invite, name="invite"),
     path("gcs/<int:chat_pk>/leave/", views.leave_chat, name="leave_chat"),
     path("gcs/new/", views.NewChat.as_view(), name="new_chat"),
 
     path("dms/", views.view_dms, name="view_dms"),
     path("dms/<int:dm_line_pk>/", views.view_dm_line, name="view_dm_line"),
-    path("dms/message/<int:dm_pk>/delete", views.delete_dm, name="delete_dm"),
+    path("dms/<int:dm_line_pk>/delete/", views.delete_dm_line, name="delete_dm_line"),
+    path("dms/message/<int:dm_pk>/delete/", views.delete_dm, name="delete_dm"),
     path("dms/new/", views.new_dm_line, name="new_dm_line")
 ]
