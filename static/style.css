@@ -133,6 +133,7 @@ a.del {
   float: right;
   background: red;
   padding: 5px;
+    margin: 0px;
 }
 .card {
     border-radius: 5px;
@@ -194,7 +195,12 @@ div.empty-sep {
   background-color: mediumseagreen;
   color: white;
   margin-bottom: 15px;
-  bottom: 0;
+}
+.info {
+  padding: 20px;
+  background-color: mediumseagreen;
+  color: white;
+  margin-bottom: 15px;
 }
 
 .closebtn {
@@ -212,7 +218,7 @@ div.empty-sep {
   color: black;
 }
 input.submit {
-    background-color: red;
+    background: red;
     padding: 0px;
 }
 input.file {
@@ -224,5 +230,10 @@ input.file {
   font-size: 15px;
   margin: 5px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-
+}
+.p-info {
+    padding: 15px;
+    background: #00c7fc;
+    border: 2px solid black;
+    border-radius: 5px;
 }

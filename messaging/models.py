@@ -23,6 +23,7 @@ class MessagingGroup(models.Model):
     name = models.CharField(max_length=50)
     members = models.ManyToManyField(to=CustomUser, related_name="messaging_groups")
     read_list = models.ManyToManyField(to=CustomUser, related_name="groups_read")
+    ban_list = models.ManyToManyField(to=CustomUser, related_name="banned_from")
 
 
 class DirectMessageLine(models.Model):
@@ -42,5 +43,3 @@ class DirectMessage(models.Model):
     by = models.ForeignKey(to=CustomUser, null=True, on_delete=models.SET_NULL, related_name="sent_dms")
     to = models.ForeignKey(to=DirectMessageLine, null=True, on_delete=models.CASCADE, related_name="messages")
     time_sent = models.DateTimeField()
-
-

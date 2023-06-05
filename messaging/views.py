@@ -1,5 +1,5 @@
 import rsa
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -47,13 +47,15 @@ def invite(request, chat_pk):
 
     if request.method == "GET":
         return render(request, "invite.html",
-                      {"uninvited_users": CustomUser.objects.exclude(messaging_groups=group).all(),
+                      {"uninvited_users": CustomUser.objects.exclude(messaging_groups=group).exclude(banned_from=group).all(),
                        "chat": group})
     elif request.method == "POST":
         if request.user not in group.members.all():
             return HttpResponse("You can't invite people to a group you're not in")
         for user_pk in request.POST.getlist("users"):
-            group.members.add(int(user_pk))
+            user = CustomUser.objects.get(pk=user_pk)
+            if user not in group.ban_list.all():
+                group.members.add(int(user_pk))
         return redirect("messaging:view_chat", chat_pk=chat_pk)
 
 
@@ -166,3 +168,11 @@ def kick_from_group(request, group_pk, user_pk):
             return redirect("messaging:view_chats")
         else:
             return redirect("messaging:view_chat", chat_pk=group_pk)
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def ban_from_group(request, group_pk, user_pk):
+    chat = MessagingGroup.objects.get(pk=group_pk)
+    chat.members.remove(user_pk)
+    chat.ban_list.add(user_pk)
+    return redirect("messaging:view_chat", chat_pk=group_pk)
