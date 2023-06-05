@@ -4,11 +4,26 @@
     <h1>Message group: {{ chat.name }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
         <div class="message">
-            {% if message.by == user %}
-                <a class="del" href="{% url "messaging:delete_gm" gm_pk=message.pk %}">Delete</a><br>
-            {% endif %}
             <img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"><br>
-            {{ message.by }} <div class="flt-right">{{ message.time_sent }}</div>
+            {{ message.by }}
+            <div class="flt-right">
+                <div>{{ message.time_sent }}</div>
+                {% if message.by == user %}
+                    <a class="del" href="{% url "messaging:delete_gm" gm_pk=message.pk %}">Delete</a>
+                {% endif %}
+                {% if message.by in chat.members.all %}
+                    <a class="del" href="{% url "messaging:kick_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Kick</a>
+                {% endif %}
+                {% if message.by not in chat.members.all %}
+                    <div><b>This person has left</b>
+                    <form method="POST" action="{% url "messaging:invite" chat_pk=chat.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ message.by.pk }}" name="users">
+                        <input type="submit" class="small" value="Reinvite">
+                    </form>
+                    </div>
+                {% endif %}
+            </div>
             <nav class="line"></nav>
             {{ message.content|linebreaks }}
         </div>

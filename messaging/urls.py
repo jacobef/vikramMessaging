@@ -13,6 +13,7 @@ urlpatterns = [
 
     path("dms/", views.view_dms, name="view_dms"),
     path("dms/<int:dm_line_pk>/", views.view_dm_line, name="view_dm_line"),
+    path("dms/<int:group_pk>/kick/<int:user_pk>/", views.kick_from_group, name="kick_from_group"),
     path("dms/<int:dm_line_pk>/delete/", views.delete_dm_line, name="delete_dm_line"),
     path("dms/message/<int:dm_pk>/delete/", views.delete_dm, name="delete_dm"),
     path("dms/new/", views.new_dm_line, name="new_dm_line")

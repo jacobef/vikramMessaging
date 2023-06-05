@@ -151,3 +151,18 @@ def delete_dm_line(request, dm_line_pk):
     if request.user in dm_line.members.all():
         dm_line.delete()
     return redirect("messaging:view_dms")
+
+
+def kick_from_group(request, group_pk, user_pk):
+    group = MessagingGroup.objects.get(pk=group_pk)
+    to_kick = CustomUser.objects.get(pk=user_pk)
+    if request.user not in group.members.all():
+        return render(request, "not_in_group.html")
+    elif to_kick.is_superuser and not request.user.is_superuser:
+        return HttpResponse("You can't kick an admin!")
+    else:
+        group.members.remove(to_kick)
+        if to_kick.pk == request.user.pk:
+            return redirect("messaging:view_chats")
+        else:
+            return redirect("messaging:view_chat", chat_pk=group_pk)
