@@ -159,7 +159,7 @@ def kick_from_group(request, group_pk, user_pk):
     if request.user not in group.members.all():
         return render(request, "not_in_group.html")
     elif to_kick.is_superuser and not request.user.is_superuser:
-        return HttpResponse("You can't kick an admin!")
+        return render(request, "kick_admin.html")
     else:
         group.members.remove(to_kick)
         if to_kick.pk == request.user.pk:
