@@ -6,9 +6,13 @@
     <nav class="line"></nav>
     {% for chat in chats %}<br>
         <div class="message">
-            <div class="large-txt">{{ chat.name }}</div><br>{% if user not in chat.read_list.all %}
-            Unread messages are in the {{ chat.name }} chat!!!<br><br>
-        {% endif %}
+            <div class="large-txt">{{ chat.name }}</div><br>
+            {% if user not in chat.read_list.all %}
+                Unread messages are in the {{ chat.name }} chat!!!<br><br>
+            {% endif %}
+            {% if user in chat.mentioned_users.all %}
+                You have unread mentions in the {{ chat.name }} chat!!!<br><br>
+            {% endif %}
           <div class="flt-right"><br>
             <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">Go to chat</a>
           </div>

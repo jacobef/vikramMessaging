@@ -23,6 +23,7 @@ class MessagingGroup(models.Model):
     name = models.CharField(max_length=50)
     members = models.ManyToManyField(to=CustomUser, related_name="messaging_groups")
     read_list = models.ManyToManyField(to=CustomUser, related_name="groups_read")
+    mentioned_users = models.ManyToManyField(to=CustomUser, related_name="unread_mentions_in")
     ban_list = models.ManyToManyField(to=CustomUser, related_name="banned_from")
 
 

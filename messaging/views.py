@@ -23,6 +23,7 @@ def view_chat(request, chat_pk):
     if request.method == "GET":
         if request.user in group.members.all():
             group.read_list.add(request.user)
+            group.mentioned_users.remove(request.user)
             group.save()
             return render(request, "group_chat.html",
                           {"chat": MessagingGroup.objects.get(pk=chat_pk),
@@ -30,10 +31,14 @@ def view_chat(request, chat_pk):
         else:
             return render(request, "not_in_group.html")
     elif request.method == "POST":
-        new_message = GroupMessage(content=request.POST["message"],
+        content = request.POST["message"]
+        new_message = GroupMessage(content=content,
                                    by=request.user,
                                    to=group,
                                    time_sent=timezone.now())
+        for user in group.members.all():
+            if f"@{user.username} " in content + " " or f"@{user.username}\n" in content + "\n":
+                group.mentioned_users.add(user)
         new_message.save()
         group.read_list.clear()
         group.read_list.add(request.user)
@@ -47,7 +52,8 @@ def invite(request, chat_pk):
 
     if request.method == "GET":
         return render(request, "invite.html",
-                      {"uninvited_users": CustomUser.objects.exclude(messaging_groups=group).exclude(banned_from=group).all(),
+                      {"uninvited_users": CustomUser.objects.exclude(messaging_groups=group).exclude(
+                          banned_from=group).all(),
                        "chat": group})
     elif request.method == "POST":
         if request.user not in group.members.all():
@@ -175,4 +181,11 @@ def ban_from_group(request, group_pk, user_pk):
     chat = MessagingGroup.objects.get(pk=group_pk)
     chat.members.remove(user_pk)
     chat.ban_list.add(user_pk)
+    return redirect("messaging:view_chat", chat_pk=group_pk)
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def unban_from_group(request, group_pk, user_pk):
+    chat = MessagingGroup.objects.get(pk=group_pk)
+    chat.ban_list.remove(user_pk)
     return redirect("messaging:view_chat", chat_pk=group_pk)

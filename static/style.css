@@ -58,7 +58,8 @@ div.message {
   font-size: 15px;
   margin: 5px;
   color: black;
-  border: 1px solid black;
+  border: 2px solid black;
+    border-radius: 5px;
 }
 nav.line {
   border: 1px solid black;
@@ -217,23 +218,12 @@ div.empty-sep {
 .closebtn:hover {
   color: black;
 }
-input.submit {
-    background: red;
-    padding: 0px;
-}
-input.file {
-  background: #00c7fc;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 15px;
-  font-weight: 800;
-  font-size: 15px;
-  margin: 5px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
 .p-info {
     padding: 15px;
     background: #00c7fc;
     border: 2px solid black;
     border-radius: 5px;
+}
+h3 {
+    margin: 0px;
 }

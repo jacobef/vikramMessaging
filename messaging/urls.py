@@ -15,6 +15,7 @@ urlpatterns = [
     path("dms/<int:dm_line_pk>/", views.view_dm_line, name="view_dm_line"),
     path("dms/<int:group_pk>/kick/<int:user_pk>/", views.kick_from_group, name="kick_from_group"),
     path("dms/<int:group_pk>/ban/<int:user_pk>/", views.ban_from_group, name="ban_from_group"),
+    path("dms/<int:group_pk>/unban/<int:user_pk>/", views.unban_from_group, name="unban_from_group"),
     path("dms/<int:dm_line_pk>/delete/", views.delete_dm_line, name="delete_dm_line"),
     path("dms/message/<int:dm_pk>/delete/", views.delete_dm, name="delete_dm"),
     path("dms/new/", views.new_dm_line, name="new_dm_line")

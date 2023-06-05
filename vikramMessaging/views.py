@@ -13,6 +13,10 @@ def home(request):
                   {"num_unread_chats": MessagingGroup.objects
                   .filter(members=request.user)
                   .exclude(read_list=request.user)
+                  .count(),
+                   "num_unread_mentions": MessagingGroup.objects
+                  .filter(members=request.user)
+                  .filter(mentioned_users=request.user)
                   .count()})
 
 
