@@ -16,7 +16,7 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                    <a class="vw_profile" href="{% url "messaging:view_user" user_pk=message.by.pk %}"><img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"></a><br>{{ message.by }}
+                    <a class="vw_profile" href="{% url "messaging:view_user" user_pk=message.by.pk %}"><img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"></a>
                     <div class="flt-right">
                         {% if message.by in chat.ban_list.all %}
                             <h3><br><br>This person is BANNED!!!</h3>
@@ -38,6 +38,7 @@
                         </div>
                         {% endif %}
                     </div>
+                    <br>{{ message.by.username }}
                 </div><br>
 
                 <div>{{ message.time_sent }}</div>
