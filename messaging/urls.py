@@ -18,5 +18,7 @@ urlpatterns = [
     path("dms/<int:group_pk>/unban/<int:user_pk>/", views.unban_from_group, name="unban_from_group"),
     path("dms/<int:dm_line_pk>/delete/", views.delete_dm_line, name="delete_dm_line"),
     path("dms/message/<int:dm_pk>/delete/", views.delete_dm, name="delete_dm"),
-    path("dms/new/", views.new_dm_line, name="new_dm_line")
+    path("dms/new/", views.new_dm_line, name="new_dm_line"),
+
+    path("user/<int:user_pk>", views.view_user, name="view_user"),
 ]

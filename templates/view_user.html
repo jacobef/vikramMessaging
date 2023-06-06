@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Profile for {{ other_user.username }}:</h1>
+    <nav class="line"></nav><br>
+    <b>Username:</b> {{ other_user.username }}<br>
+    <b>Name:</b> {{ other_user.first_name }} {{ other_user.last_name }}<br>
+    <b>Profile picture:</b>
+    <div class="card">
+    <img class="card-img" src="{{ other_user.profile_pic.url }}" alt="profile_picture">
+    </div>
+    <form method="POST" action="{% url "messaging:new_dm_line" %}">
+        {% csrf_token %}
+        <input type="hidden" name="other_user" value="{{ other_user.pk }}">
+        <input type="submit" value="DM {{ other_user.username }}">
+    </form>
+    <nav class="line"></nav>
+    <h3>Chats you're both in:</h3><br>
+    {% for chat in user.messaging_groups.all %}
+        {% if other_user in chat.members.all %}
+            <a href="{% url "messaging:view_chat" chat_pk=chat.pk %}">{{ chat.name }}</a><br><br><br>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

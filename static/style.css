@@ -238,3 +238,12 @@ a.mention {
     padding: 5px;
     color: black
 }
+a.vw_profile {
+    background: none;
+    border: 0px;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px 0px;
+    box-shadow: none;
+    cursor: pointer;
+}

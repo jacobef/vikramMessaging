@@ -22,7 +22,7 @@ def highlight_mentions(value: str, users: Iterable[CustomUser]) -> SafeString:
     escaped_value = escape(value)
     for user in users:
         pattern = fr"@{user.username}\b"
-        replacement = f'<a class="mention" href="#">@{user.username}</a>'
+        replacement = f'<a class="mention" href="{reverse("messaging:view_user", kwargs={"user_pk": user.pk})}">@{user.username}</a>'
         matches = re.search(pattern, escaped_value)
         print(f"searched '{pattern}' over '{escaped_value}' and found {matches}")
         escaped_value = re.sub(pattern, replacement, escaped_value)

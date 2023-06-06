@@ -156,6 +156,7 @@ def delete_gm(request, gm_pk):
     return redirect("messaging:view_chat", chat_pk=gm.to.pk)
 
 
+@login_required
 def delete_dm_line(request, dm_line_pk):
     dm_line = DirectMessageLine.objects.get(pk=dm_line_pk)
     if request.user in dm_line.members.all():
@@ -163,6 +164,7 @@ def delete_dm_line(request, dm_line_pk):
     return redirect("messaging:view_dms")
 
 
+@login_required
 def kick_from_group(request, group_pk, user_pk):
     group = MessagingGroup.objects.get(pk=group_pk)
     to_kick = CustomUser.objects.get(pk=user_pk)
@@ -191,3 +193,11 @@ def unban_from_group(request, group_pk, user_pk):
     chat = MessagingGroup.objects.get(pk=group_pk)
     chat.ban_list.remove(user_pk)
     return redirect("messaging:view_chat", chat_pk=group_pk)
+
+
+def view_user(request, user_pk):
+    other_user = CustomUser.objects.get(pk=user_pk)
+    if request.user.pk == other_user.pk:
+        return redirect("profile")
+    else:
+        return render(request, "view_user.html", {"other_user": other_user})

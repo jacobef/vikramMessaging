@@ -2,7 +2,13 @@
 {% block content %}
     <h1>Home</h1>
     <h4>Hello, {{ user }}!</h4>
-    You have {{ num_unread_chats }} chats with unread messages.
+    {% if num_unread_chats != 0 %}
+        <h4>You have mail!!</h4>
+        You have {{ num_unread_chats }} chats with unread messages. <br>
+    {% endif %}
+    {% if num_unread_chats == 0 %}
+        <h4>You read all your mail.</h4>
+    {% endif %}
     You have {{ num_unread_mentions }} chats with unread mentions.
     <!--
     <div class="card">
@@ -18,7 +24,4 @@
     </div>
     </div>
     -->
-    <div class="msg_highlight">
-    Hi
-    </div>
 {% endblock %}
