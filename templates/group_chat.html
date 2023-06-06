@@ -1,50 +1,57 @@
 {% extends "base.html" %}
+{% load message_tags %}
 {% block title %}{{ chat.name }}{% endblock %}
 {% block content %}
     <h1>Message group: {{ chat.name }}</h1>
     {% for message in messages|dictsortreversed:"time_sent" %}
-        <div class="message">
-         <div class="p-info">
-         <div class="flt-right">
-
-                    {% if message.by in chat.ban_list.all %}
-                        {% if user.is_superuser %}
-                            <a class="del" href="{% url "messaging:unban_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Unban</a><br>
-                        {% endif %}
-                    {% endif %}
-             </div>
-            <img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture">{{ message.by }}
-            <div class="flt-right">
-                    {% if message.by in chat.ban_list.all %}
-                        <h3><br><br>This person is BANNED!!!</h3>
-            {% endif %}
-            </div>
-            {% if user.is_superuser and message.by not in chat.ban_list.all %}
-                        <a class="del" href="{% url "messaging:ban_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Ban</a>
-            {% endif %}
-            {% if message.by in chat.members.all %}
-                    <a class="del" href="{% url "messaging:kick_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Kick</a>
-            {% endif %}
-            <div class="flt-right">
-            {% if message.by not in chat.members.all and message.by not in chat.ban_list.all %}
-                    <div><b>This person has left.</b>
-                    <form method="POST" action="{% url "messaging:invite" chat_pk=chat.pk %}" style="display: inline;">
-                        {% csrf_token %}
-                        <span display="inline"><input type="hidden" value="{{ message.by.pk }}" name="users"><input type="submit" class="small" value="Reinvite"></span>
-                    </form>
-            </div>
-            {% endif %}
-        </div>
-            </div><br>
-        <div>{{ message.time_sent }}</div>
-        <div class="flt-right">
-        {% if message.by == user %}
-             <a class="del" href="{% url "messaging:delete_gm" gm_pk=message.pk %}">Delete</a>
+        {% if user|is_mentioned_in:message %}
+        <div class="msg_highlight">
         {% endif %}
+            <div class="message">
+                <div class="p-info">
+                    <div class="flt-right">
+                        {% if message.by in chat.ban_list.all %}
+                            {% if user.is_superuser %}
+                                <a class="del" href="{% url "messaging:unban_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Unban</a><br>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"><br>{{ message.by }}
+                    <div class="flt-right">
+                        {% if message.by in chat.ban_list.all %}
+                            <h3><br><br>This person is BANNED!!!</h3>
+                        {% endif %}
+                    </div>
+                    {% if user.is_superuser and message.by not in chat.ban_list.all %}
+                        <a class="del" href="{% url "messaging:ban_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Ban</a>
+                    {% endif %}
+                    {% if message.by in chat.members.all %}
+                        <a class="del" href="{% url "messaging:kick_from_group" group_pk=chat.pk user_pk=message.by.pk %}">Kick</a>
+                    {% endif %}
+                    <div class="flt-right">
+                        {% if message.by not in chat.members.all and message.by not in chat.ban_list.all %}
+                            <div><b>This person has left.</b>
+                            <form method="POST" action="{% url "messaging:invite" chat_pk=chat.pk %}" style="display: inline;">
+                                {% csrf_token %}
+                                <span display="inline"><input type="hidden" value="{{ message.by.pk }}" name="users"><input type="submit" class="small" value="Reinvite"></span>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div><br>
+
+                <div>{{ message.time_sent }}</div>
+                <div class="flt-right">
+                    {% if message.by == user %}
+                         <a class="del" href="{% url "messaging:delete_gm" gm_pk=message.pk %}">Delete</a>
+                    {% endif %}
+                </div>
+                <nav class="line"></nav>
+                {{ message.content|highlight_mentions:chat.members.all|linebreaks }}<br>
+            </div>
+        {% if user|is_mentioned_in:message %}
         </div>
-            <nav class="line"></nav>
-            {{ message.content|linebreaks }}<br>
-        </div>
+        {% endif %}
     {% endfor %}
     <div class="sticky">
         <form method="POST" style="display:inline-block">

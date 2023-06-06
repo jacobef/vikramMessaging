@@ -1,3 +1,5 @@
+import re
+
 import rsa
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
@@ -37,7 +39,7 @@ def view_chat(request, chat_pk):
                                    to=group,
                                    time_sent=timezone.now())
         for user in group.members.all():
-            if f"@{user.username} " in content + " " or f"@{user.username}\n" in content + "\n":
+            if re.search(fr"@{user.username}\b", content):
                 group.mentioned_users.add(user)
         new_message.save()
         group.read_list.clear()
