@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
 from messaging.forms import CustomUserCreationForm
-from messaging.models import GroupMessage, MessagingGroup, CustomUser
+from messaging.models import GroupMessage, MessagingGroup, CustomUser, DirectMessageLine
 
 
 @login_required
@@ -17,7 +17,11 @@ def home(request):
                    "num_unread_mentions": MessagingGroup.objects
                   .filter(members=request.user)
                   .filter(mentioned_users=request.user)
-                  .count()})
+                  .count(),
+                   "num_unread_dms": DirectMessageLine.objects
+                   .filter(members=request.user)
+                   .exclude(read_list=request.user)
+                   .count()})
 
 
 @login_required

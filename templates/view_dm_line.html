@@ -9,8 +9,8 @@
             {% if message.by == user %}
                 <a class="del" href="{% url "messaging:delete_dm" dm_pk=message.pk %}">Delete</a><br>
             {% endif %}
-            <img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"><br>
-            {{ message.by }} <div class="flt-right">{{ message.time_sent }}</div>
+            <a class="vw_profile" href="{% url "messaging:view_user" user_pk=message.by.pk %}"><img class="message-img" src="{{ message.by.profile_pic.url }}" alt="profile_picture"></a><br>{{ message.by }}
+            <div class="flt-right">{{ message.time_sent }}</div>
 
 
             <nav class="line"></nav>

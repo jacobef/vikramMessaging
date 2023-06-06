@@ -3,13 +3,22 @@
     <h1>Home</h1>
     <h4>Hello, {{ user }}!</h4>
     {% if num_unread_chats != 0 %}
-        <h4>You have mail!!</h4>
+        <h4>You have unread chats!!</h4>
         You have {{ num_unread_chats }} chats with unread messages. <br>
+        {% if num_unread_mentions != 0 %}
+            You have {{ num_unread_mentions }} chats with unread mentions.
+        {% endif %}
     {% endif %}
+    {% if num_unread_dms != 0 %}
+        <h4>You have unread DMs!!</h4>
+        You have {{ num_unread_dms }} DMs with unread messages. <br>
+    {% endif %}
+
+
     {% if num_unread_chats == 0 %}
         <h4>You read all your mail.</h4>
     {% endif %}
-    You have {{ num_unread_mentions }} chats with unread mentions.
+
     <!--
     <div class="card">
     <div class="card-txt">
